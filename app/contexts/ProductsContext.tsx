@@ -14,6 +14,8 @@ interface Product {
   interface ProductsState {  
     products: Product[];  
     product: Product;
+    initialProduct: Product;
+    setProduct: (product: Product) => void;
     addProduct: (product: Product) => void;  
     fetchProducts: () => Promise<void>; 
     fetchProduct: (productId: string) => Promise<void>;   
@@ -45,7 +47,6 @@ export const ProductsProvider: React.FC<{ children: ReactNode }> = ({ children }
   const fetchProduct = async (productId: string) => {  
     try {  
       const response = await axiosInstance.get(`/products/${productId}`);  
-      console.log('res', response)
       setProduct(response.data);  
     } catch (error) {  
       console.error('Error fetching products:', error);  
@@ -57,7 +58,7 @@ export const ProductsProvider: React.FC<{ children: ReactNode }> = ({ children }
   };  
 
   return (  
-    <ProductsContext.Provider value={{ products, product, fetchProducts, fetchProduct, addProduct }}>  
+    <ProductsContext.Provider value={{initialProduct,  products, product, setProduct, fetchProducts, fetchProduct, addProduct }}>  
       {children}  
     </ProductsContext.Provider>  
   );  

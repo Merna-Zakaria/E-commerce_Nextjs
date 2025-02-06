@@ -15,7 +15,6 @@ export const requestHandler = (request) => {
   //   : null;
 
   if (isHandlerEnabled(request)) {
-    console.log('hi')
     // const { disableLoader } = store.getState().loader;
     // Modify request here
     // if (!disableLoader) store.dispatch(loader(true));
@@ -40,28 +39,28 @@ export const successHandler = (response) => {
 };
 
 export const errorHandler = (error) => {
-  if (isHandlerEnabled(error.config)) {
-    // store.dispatch(loader(false));
-    // store.dispatch(disableLoader(false));
-    //session ends //free trial firm deleted
-    if (error.response?.status === 401 &&  error.response?.data?.message === "Unauthenticated.") {
-      // Auth.isAuth();
-      // Auth.signOut();
-      // localStorage.clear()
-    }
-    //[403] try to access with no permission or removed from it
-    //[404] navigate in case and removed from it in same time]
-    else if (error.response?.status === 424) {
-      //expire
+  // if (isHandlerEnabled(error.config)) {
+  //   // store.dispatch(loader(false));
+  //   // store.dispatch(disableLoader(false));
+  //   //session ends //free trial firm deleted
+  //   if (error.response?.status === 401 &&  error.response?.data?.message === "Unauthenticated.") {
+  //     // Auth.isAuth();
+  //     // Auth.signOut();
+  //     // localStorage.clear()
+  //   }
+  //   //[403] try to access with no permission or removed from it
+  //   //[404] navigate in case and removed from it in same time]
+  //   else if (error.response?.status === 424) {
+  //     //expire
       
-    } else if (navigator && navigator.onLine === false) {
-      // dispatchSnackbarError(messages[lang].errors.networkError);
-    } else {
-      return Promise.reject({ ...error });
-    }
-  } else {
-    if (error.response?.status !== 401 || error.response?.status !== 400) {
-      // dispatchSnackbarError(messages[lang].errors.errorOccurred);
-    }
-  }
+  //   } else if (navigator && navigator.onLine === false) {
+  //     // dispatchSnackbarError(messages[lang].errors.networkError);
+  //   } else {
+  //     return Promise.reject({ ...error });
+  //   }
+  // } else {
+  //   if (error.response?.status !== 401 || error.response?.status !== 400) {
+  //     // dispatchSnackbarError(messages[lang].errors.errorOccurred);
+  //   }
+  // }
 };

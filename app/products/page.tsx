@@ -12,7 +12,6 @@ const ProductsPage = () => {
   useEffect(() => {
     fetchProducts()
   }, []) 
-  console.log('product', products)
   return (
     <div>
        <Image
