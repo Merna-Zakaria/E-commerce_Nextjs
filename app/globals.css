@@ -27,6 +27,11 @@ body {
     color: white;
     background-color: black;
 }
+.transparent{
+  color:#D4AF37 ;
+  border: 1px solid #D4AF37;
+  background-color: transparent;
+}
 .primaryBg{
   background-color: #D4AF37;
 }
@@ -42,4 +47,9 @@ body {
 .cardBtn {
   position: absolute;
   bottom: 15px;
+  left: -6px;
+    margin: 10px;
+}
+.maxH{
+  max-height: 600.11px;
 }

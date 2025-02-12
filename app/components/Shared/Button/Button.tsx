@@ -5,12 +5,13 @@ interface ButtonComponentProps {
   text: string;
   color: string;
   wrapperStyle?: string;
+  type?: "button" | "submit" | "reset";
 }
 
-const Button: React.FC<ButtonComponentProps> = ({ action, text, color, wrapperStyle }) => {
+const Button: React.FC<ButtonComponentProps> = ({ action, text, color, wrapperStyle, type='button' }) => {
   return (
     <div className={`${wrapperStyle}`}>
-      <button onClick={action} className={`px-3 py-2 rounded-lg ${color}`}>
+      <button type={type} onClick={action} className={`px-3 py-2 rounded-lg ${color}`}>
         {text}
       </button>
     </div>

@@ -15,10 +15,12 @@ interface Product {
     products: Product[];  
     product: Product;
     initialProduct: Product;
+    categories: string[];
     setProduct: (product: Product) => void;
-    addProduct: (product: Product) => void;  
+    addProduct: (product: string) => void;  
     fetchProducts: () => Promise<void>; 
-    fetchProduct: (productId: string) => Promise<void>;   
+    fetchProduct: (productId: string) => Promise<void>; 
+    fetchCategory: () => Promise<void>; 
   }  
 const ProductsContext = createContext<ProductsState | undefined>(undefined);  
 
@@ -33,7 +35,8 @@ export const ProductsProvider: React.FC<{ children: ReactNode }> = ({ children }
   };  
 
   const [products, setProducts] = useState<Product[]>([]);  
-  const [product, setProduct] = useState<Product>(initialProduct);  
+  const [product, setProduct] = useState<Product>(initialProduct); 
+  const [categories, setCategories] = useState([]);   
 
   const fetchProducts = async () => {  
     try {  
@@ -53,12 +56,25 @@ export const ProductsProvider: React.FC<{ children: ReactNode }> = ({ children }
     }  
   };  
 
-  const addProduct = (product: Product) => {  
-    setProducts((prev) => [...prev, product]);  
+  const fetchCategory = async () => {  
+    try {  
+      const response = await axiosInstance.get(`/products/categories`);  
+      setCategories(response.data);  
+    } catch (error) {  
+      console.error('Error fetching products:', error);  
+    }  
+  };  
+
+  const addProduct = async(product: string) => {  
+    try {  
+      const response = await axiosInstance.post(`/products`, product);  
+    } catch (error) {  
+      console.error('Error adding product:', error);  
+    }  
   };  
 
   return (  
-    <ProductsContext.Provider value={{initialProduct,  products, product, setProduct, fetchProducts, fetchProduct, addProduct }}>  
+    <ProductsContext.Provider value={{initialProduct, products, product, categories, fetchCategory, setProduct, fetchProducts, fetchProduct, addProduct }}>  
       {children}  
     </ProductsContext.Provider>  
   );  

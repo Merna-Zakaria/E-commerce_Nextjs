@@ -2,9 +2,10 @@ import React, { useState, ChangeEvent } from 'react';
 
 interface ImageUploadProps {  
   onUpload: (file: File) => void; // Callback when the image is successfully uploaded  
+  label: string;
 }  
 
-const ImageUpload: React.FC<ImageUploadProps> = ({ onUpload }) => {  
+const ImageUpload: React.FC<ImageUploadProps> = ({ onUpload, label }) => {  
   const [selectedImage, setSelectedImage] = useState<string | null>(null);  
   const [error, setError] = useState<string | null>(null);  
 
@@ -33,6 +34,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onUpload }) => {
   };  
 
   return (  
+    <>
+          {label && <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>}
     <div className="flex flex-col items-center justify-center bg-white border-2 border-gray-300 border-dashed rounded-md p-4">  
       <input  
         type="file"  
@@ -43,7 +46,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onUpload }) => {
       />  
       <label  
         htmlFor="image-upload"  
-        className="cursor-pointer bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-150"  
+        className="cursor-pointer transparent py-2 px-4 rounded hover:bg-blue-600 transition duration-150"  
       >  
         Upload Image  
       </label>  
@@ -58,6 +61,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onUpload }) => {
       )}  
       {error && <p className="text-red-500 mt-2">{error}</p>} {/* Error message */}  
     </div>  
+    </>
   );  
 };  
 

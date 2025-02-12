@@ -1,7 +1,9 @@
 'use client'
 import React, { useEffect } from 'react';
-import navigation from 'next/navigation'
-import { useProductsContext } from '../../contexts/ProductsContext';  
+import navigation from 'next/navigation';
+import { useProductsContext } from '../../contexts/ProductsContext'; 
+import ProductCard from "../../components/ProductCard/ProductCard"; 
+import Button from '@/app/components/Shared/Button/Button';
 
 // interface ProductDetailsProps {
 //   product: {
@@ -34,25 +36,21 @@ return() => {
     }, [])
   return (
    Object.values(product)?.map(ele => ele)?.length && 
-   <div className='flex'>
-
-   <div className="max-w-sm rounded overflow-hidden shadow-lg p-6 bg-white">
-      <img className="w-full" src={product.image} alt={'productImg'} />
-      <div className="px-6 py-4">
-        <div className="font-bold text-xl mb-2">{product.title}</div>
-        <p className="text-gray-700 text-base">{product.category}</p>
-      </div>
-      <div className="px-6 pt-4 pb-2">
-        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-          ${product.price}
-        </span>
-      </div>
-    </div>
-    <div className="max-w-sm rounded overflow-hidden shadow-lg p-6 bg-white">
-    <div className="px-6 py-4 mx-8">
-      <div className="font-bold text-xl mb-2">Product Description</div>
+   <div className='grid grid-cols-3 gap-4'>
+    <ProductCard
+             id={product?.id}
+             wrapperLink={``} 
+             title={product?.title} 
+             imageUrl={product?.image} 
+             category={product?.category} 
+             price={product?.price}
+             />
+    <div className="flex-col flex justify-between rounded overflow-hidden shadow-lg p-6 bg-white px-6 py-4 col-span-2">
+    <div>
+      <p className="font-bold text-xl mb-2">Product Description</p>
       <p className="text-gray-700 text-base">{product.description}</p>
     </div>
+      <Button text='Back To List  >>>' action={() => navigation?.redirect('/products')} color='secondary' wrapperStyle='flex flex-row-reverse'/>
   </div>
    </div>
   );

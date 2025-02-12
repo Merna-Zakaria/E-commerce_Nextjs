@@ -1,22 +1,10 @@
-// import React from 'react'
-
-// const AppFooter = () => {
-//   return (
-//     <div>
-//       AppFooter
-//     </div>
-//   )
-// }
-
-// export default AppFooter
-// components/Footer.tsx
 import Link from 'next/link';
 
 const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white py-12">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div className="container mx-auto px-4 w-11/12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* About Section */}
           <div>
             <h3 className="text-lg font-bold mb-4">About Us</h3>
@@ -26,7 +14,7 @@ const Footer = () => {
           </div>
 
           {/* Quick Links Section */}
-          <div>
+          {/* <div>
             <h3 className="text-lg font-bold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
@@ -50,7 +38,7 @@ const Footer = () => {
                 </Link>
               </li>
             </ul>
-          </div>
+          </div> */}
 
           {/* Newsletter Section */}
           <div>
