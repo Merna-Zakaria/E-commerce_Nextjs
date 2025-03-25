@@ -68,6 +68,9 @@ export const ProductsProvider: React.FC<{ children: ReactNode }> = ({ children }
   const addProduct = async(product: string) => {  
     try {  
       const response = await axiosInstance.post(`/products`, product);  
+      if(response.data.id){
+        window.location.href = '/products'
+      }
     } catch (error) {  
       console.error('Error adding product:', error);  
     }  

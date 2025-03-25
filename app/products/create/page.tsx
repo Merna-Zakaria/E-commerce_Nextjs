@@ -80,7 +80,6 @@ const CreatePage: React.FC = () => {
     validateFields()
     if (Object.values(errorObj)?.filter(ele => ele && ele)?.length == 0) {
       addProduct(JSON.stringify({ ...formData, imageUrl: uploadedFile }))
-      redirect('/products')
     }
   };
 
