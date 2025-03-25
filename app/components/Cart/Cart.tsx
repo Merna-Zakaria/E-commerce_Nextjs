@@ -7,7 +7,6 @@ import { useGlobalContext } from '@/app/contexts/GlobalContext';
 
 const CartComponent = () => {
   const { cartList } = useGlobalContext();
-  console.log('cart list', cartList)
   return (
     <div className="">
       <Dropdown

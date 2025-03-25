@@ -1,7 +1,7 @@
 import React from 'react'
 
 interface ButtonComponentProps {
-  action: (event: React.MouseEvent<HTMLButtonElement>) => void; // Define the prop type for click event 
+  action?: (event: React.MouseEvent<HTMLButtonElement>) => void; // Define the prop type for click event 
   text: string;
   color: string;
   wrapperStyle?: string;

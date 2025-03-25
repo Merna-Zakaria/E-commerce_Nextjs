@@ -15,7 +15,7 @@ interface CardProps {
   buttonText?: string;
   wrapperLink?: string;
   onButtonClick?: () => void | undefined;
-  index: number;
+  index?: number;
 }
 
 const ProductCard: React.FC<CardProps> = ({ id, addToCartBtn, trimTitle, wrapperStyle, wrapperLink, title, imageUrl, index, description, price, category, buttonText, onButtonClick }) => {

@@ -41,7 +41,7 @@ const ProductsPage = () => {
         />
       </div>
         <div className='m-8 justify-center'>
-        <Button wrapperStyle={'w-full flex justify-end'} text='Create Product' action={() => redirect('/products/create')} color='secondary'/>
+        <Button wrapperStyle={'w-full flex justify-end mb-6'} text='Create Product' action={() => redirect('/products/create')} color='secondary'/>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
           {products?.map((product, i) => (
             <ProductCard

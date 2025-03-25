@@ -14,6 +14,10 @@ interface FormData {
   category: string;
 }
 
+type ErrorObjectType = {
+  [key: string]: string; // Error messages will be strings  
+};
+
 const CreatePage: React.FC = () => {
   const { categories, fetchCategory, addProduct } = useProductsContext();
   // State to hold input values  
@@ -24,16 +28,14 @@ const CreatePage: React.FC = () => {
     category: '',
   }
   const [formData, setFormData] = useState<FormData>(initialValues);
-  const [errorObj, setErrorObject] = useState<FormData>(formData);
+  const [errorObj, setErrorObject] = useState<ErrorObjectType>({});
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-  const [isValid, setIsvalid] = useState(true);
 
   useEffect(() => {
     fetchCategory()
   }, [])
   const handleUpload = (file: File) => {
     setUploadedFile(file);
-    console.log('Uploaded file:', file);
   };
 
   // Handle input changes  
@@ -43,21 +45,31 @@ const CreatePage: React.FC = () => {
     validateFields(name, value)
   };
 
-  const validateFields = (name: string, value: any) => {
-    console.log('name', name, 'value', value)
+  const handleEmpttyFields = () => {
+    const newObj = Object.fromEntries(
+      Object.keys(initialValues).map((key) => [key, 'This field is required'])
+    );
+    return setErrorObject({ ...newObj, ...errorObj });
+  }
+
+  const validateFields = (name?: string, value?: any) => {
+
     switch (name) {
       case 'title':
-        setIsvalid(value?.length > 50 ? false : true)
         setErrorObject({ ...errorObj, [name]: value?.length > 50 ? 'Char numbers must be equal or less than 50' : '' })
+        break;
       case 'description':
-        setIsvalid(value?.length > 100 ? false : true)
         setErrorObject({ ...errorObj, [name]: value?.length > 100 ? 'Char numbers must be equal or less than 100' : '' })
+        break;
       case 'price':
-        setIsvalid(value && value <= 0 ? false : true)
-        setErrorObject({ ...errorObj, [name]: value && value <= 0 ? 'Char numbers must be greater than 0' : '' })
+        setErrorObject({ ...errorObj, [name]: value <= 0 ? 'Char numbers must be greater than 0' : '' })
+        break;
       default:
-        setIsvalid(!value ? false : true)
-        setErrorObject({ ...errorObj, [name]: !value ? 'This field is required' : '' })
+        if (name) {
+          setErrorObject({ ...errorObj, [name]: !value ? 'This field is required' : '' })
+        } else {
+          handleEmpttyFields()
+        }
     }
 
 
@@ -65,9 +77,10 @@ const CreatePage: React.FC = () => {
   // Handle form submission  
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    console.log('Object.values(errorObj)?.map(ele=> ele && ele)', Object.values(errorObj)?.filter(ele => ele && ele))
-    if (isValid && Object.values(errorObj)?.filter(ele => ele && ele)?.length == 0) {
+    validateFields()
+    if (Object.values(errorObj)?.filter(ele => ele && ele)?.length == 0) {
       addProduct(JSON.stringify({ ...formData, imageUrl: uploadedFile }))
+      redirect('/products')
     }
   };
 
@@ -101,6 +114,7 @@ const CreatePage: React.FC = () => {
             placeholder="Description"
             value={formData.description}
             onChange={handleInputChange}
+            errMsg={errorObj?.description}
           />
         </div>
         <div className="mb-4">
@@ -110,6 +124,7 @@ const CreatePage: React.FC = () => {
             onChange={handleInputChange}
             label={'Category'}
             name={'category'}
+            errMsg={errorObj?.category}
           />
         </div>
         <ImageUpload onUpload={handleUpload} label='Product Image' />
@@ -119,8 +134,7 @@ const CreatePage: React.FC = () => {
             wrapperStyle={'mx-5'} text='Back' action={() => redirect('/products')} color='secondary'
           />
           <Button
-            type="submit"
-            wrapperStyle={''} text='Submit' action={() => console.log('submit')} color='primary'
+            type="submit" text='Submit' color='primary'
           />
         </div>
       </form>
