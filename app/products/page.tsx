@@ -1,6 +1,6 @@
 "use client";
-import React, { useEffect } from 'react'
-import Link from 'next/link';
+import React, { useEffect, useRef } from 'react';  
+import { gsap } from 'gsap';  
 import Image from "next/image";
 import { redirect } from 'next/navigation';
 import { useProductsContext } from '../contexts/ProductsContext';
@@ -11,12 +11,24 @@ import Button from "../components/Shared/Button/Button";
 
 const ProductsPage = () => {
   const { products, fetchProducts } = useProductsContext();
+  const boxRef = useRef<HTMLDivElement | null>(null);  
+
+  useEffect(() => {  
+    if (boxRef.current) {  
+      gsap.fromTo(  
+        boxRef.current,  
+        { opacity: 0, y: 50 },  
+        { opacity: 1, y: 0, duration: 1 }  
+      );  
+    }  
+  }, []);  
+
   useEffect(() => {
     fetchProducts()
   }, [])
   return (
     <div className='relative'>
-      <div className='relative'>
+      <div className='relative'  ref={boxRef}>
         <div className='absolute w-100 font-black text-center inset-0 bg-black bg-opacity-50 flex items-center justify-center'>
           <div>
             <p className='text-lg md:text-9xl pb-4'>MZ</p>
