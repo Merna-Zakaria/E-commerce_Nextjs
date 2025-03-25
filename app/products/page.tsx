@@ -28,31 +28,30 @@ const ProductsPage = () => {
           alt="HeroImg"
         />
       </div>
-        <div className='flex flex-wrap m-8 justify-center'>
-        <h1 className='w-1/2'>Products filter</h1>
-        <Button wrapperStyle={'w-1/4 flex justify-end'} text='Create Product' action={() => redirect('/products/create')} color='secondary'/>
-          {products?.map((product) => (
+        <div className='m-8 justify-center'>
+        <Button wrapperStyle={'w-full flex justify-end'} text='Create Product' action={() => redirect('/products/create')} color='secondary'/>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+          {products?.map((product, i) => (
             <ProductCard
-              id={product?.id}
-              wrapperStyle='w-full md:w-1/4 m-4'
+            key={i}
+              index={i}
+              id={product.id}
+              wrapperStyle='w-full'
               wrapperLink={`/products/${product.id}`}
               title={product?.title}
               imageUrl={product?.image}
               category={product?.category}
               price={product?.price}
               addToCartBtn
+              trimTitle
             />
           ))}
         </div>
-      {/* Pagination Component */}
-      <Pagination
-        // currentPage={currentPage}
-        // totalPages={totalPages}
-        // pathname={router.pathname}
+        </div>
+      {/* <Pagination
         currentPage={1}
         totalPages={2}
-        pathname={''}
-      />
+      /> */}
     </div>
   )
 }

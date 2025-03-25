@@ -1,40 +1,69 @@
-import { ChangeEvent } from 'react';
-import React from 'react';
+import { ReactNode, useState } from 'react';
 
-interface Option {
-  value: string; // The actual value of the option  
-  label: string; // The display label for the option  
-}
-
+interface option { img?: string, title: string, price?: number, path?: string }
 interface DropdownProps {
-  name: string;
-  options: Option[]; // Array of options for the dropdown  
-  value: string; // Currently selected value  
-  onChange: (e: ChangeEvent<HTMLSelectElement>) => void;// Function to call when the selection changes  
-  label?: string; // Optional label for accessibility 
-  errMsg?: string;
+    head: ReactNode;
+    options: option[];
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ name, options, value, onChange, label, errMsg }) => {
-  return (
-    <div className="relative">
-      {label && <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>}
-      <select
-        name={name}
-        value={value}
-        onChange={onChange}
-        className={`w-full block border rounded-md px-4 py-2 focus:outline-none transition duration-150 ease-in-out resize-none focus:ring-1 ${errMsg ? ` border-red-300 focus:border-red-500  focus:ring-red-500` : ` border-gray-300 focus:border-blue-500  focus:ring-blue-500`}`}
-      >
-        <option value="" disabled>Select Category</option> {/* Placeholder option */}
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-      {errMsg && <label className="block text-sm font-medium text-red-700 mb-1">{errMsg}</label>}
-    </div>
-  );
+const Dropdown: React.FC<DropdownProps> = ({ head, options }) => {
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [selectedOption, setSelectedOption] = useState<string>('Select an Option');
+
+    const toggleDropdown = () => {
+        setIsOpen(!isOpen);
+    };
+
+    const handleOptionClick = (option: string) => {
+        setSelectedOption(option);
+        setIsOpen(false); // Close dropdown after selecting  
+    };
+
+    return (
+        <div className="relative inline-block text-left">
+            <div>
+                <button
+                    onClick={toggleDropdown}
+                    className="inline-flex justify-between w-full px-4 py-2 text-sm font-medium"
+                >
+                    {head}
+                </button>
+            </div>
+
+            {isOpen && options?.length && (
+                <div className="absolute right-0 z-10 w-56 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                        {options.map((option, i) => (
+                            <a
+                                key={`${option.title}-${i}`}
+                                href="#"
+                                onClick={(e) => {
+                                    e.preventDefault(); // Prevent the default anchor behavior  
+                                    option.path && handleOptionClick(option.path);
+                                }}
+                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            >
+                              <>
+                              <div className='flex'>
+                                    {option?.img &&
+                                        <img
+                                            src={option.img}
+                                            alt="cart"
+                                            width={25}
+                                            height={25}
+                                        />}
+                                    {option.price && <span className='p-3'>{option.price}$</span>}
+                                </div>
+                                {option.title}
+                                <hr/>
+                              </>
+                            </a>
+                        ))}
+                    </div>
+                </div>
+            )}
+        </div>
+    );
 };
 
-export default Dropdown;
+export default Dropdown;  

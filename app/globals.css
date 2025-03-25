@@ -53,3 +53,6 @@ body {
 .maxH{
   max-height: 600.11px;
 }
+.bottom{
+  bottom: 20px;
+}

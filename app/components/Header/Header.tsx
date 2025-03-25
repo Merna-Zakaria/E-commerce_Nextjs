@@ -1,7 +1,6 @@
 'use client'
 import React from 'react'
-import Image from "next/image";
-import Cart from '../../assets/images/cart.svg';
+import Cart from '../Cart/Cart';
 import Button from '../Shared/Button/Button';
 
 const AppHeader = () => {
@@ -15,11 +14,7 @@ const AppHeader = () => {
       </div>
       <div className='flex ' >
         <Button text='login' action={handleLogin} color='primary' wrapperStyle={'mx-3'}/>
-        <Image
-          src={Cart}
-          alt="cart"
-          width={25}
-        />
+        <Cart/>
       </div>
     </header>
   )

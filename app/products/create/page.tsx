@@ -1,9 +1,9 @@
 'use client'
 import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { redirect } from 'next/navigation';
-import TextInput from '../../components/Shared/InputField/InputField';
-import Dropdown from "../../components/Shared/Dropdown/Dropdown";
-import ImageUpload from "../../components/Shared/ImageUpload/ImageUpload";
+import TextInput from '@/app/components/Shared/InputField/InputField';
+import Dropdown from "@/app/components/Shared/Select/Select";
+import ImageUpload from "@/app/components/Shared/ImageUpload/ImageUpload";
 import Button from '@/app/components/Shared/Button/Button';
 import { useProductsContext } from '@/app/contexts/ProductsContext';
 
@@ -33,7 +33,7 @@ const CreatePage: React.FC = () => {
   }, [])
   const handleUpload = (file: File) => {
     setUploadedFile(file);
-    console.log('Uploaded file:', file); // You can implement further logic here, e.g., uploading to a server  
+    console.log('Uploaded file:', file);
   };
 
   // Handle input changes  
@@ -44,20 +44,20 @@ const CreatePage: React.FC = () => {
   };
 
   const validateFields = (name: string, value: any) => {
-    console.log('name',name, 'value', value)
+    console.log('name', name, 'value', value)
     switch (name) {
       case 'title':
         setIsvalid(value?.length > 50 ? false : true)
-        setErrorObject({ ...errorObj, [name]: value?.length > 50 ? 'Char numbers must be equal or less than 50' : ''})
+        setErrorObject({ ...errorObj, [name]: value?.length > 50 ? 'Char numbers must be equal or less than 50' : '' })
       case 'description':
         setIsvalid(value?.length > 100 ? false : true)
-        setErrorObject({ ...errorObj, [name]: value?.length > 100 ? 'Char numbers must be equal or less than 100' : ''})
+        setErrorObject({ ...errorObj, [name]: value?.length > 100 ? 'Char numbers must be equal or less than 100' : '' })
       case 'price':
         setIsvalid(value && value <= 0 ? false : true)
         setErrorObject({ ...errorObj, [name]: value && value <= 0 ? 'Char numbers must be greater than 0' : '' })
       default:
         setIsvalid(!value ? false : true)
-        setErrorObject({ ...errorObj, [name]: !value ? 'This field is required' : '' }) 
+        setErrorObject({ ...errorObj, [name]: !value ? 'This field is required' : '' })
     }
 
 
@@ -65,14 +65,10 @@ const CreatePage: React.FC = () => {
   // Handle form submission  
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    // Here you can handle the form submission, e.g., send the data to an API  
     console.log('Object.values(errorObj)?.map(ele=> ele && ele)', Object.values(errorObj)?.filter(ele => ele && ele))
     if (isValid && Object.values(errorObj)?.filter(ele => ele && ele)?.length == 0) {
       addProduct(JSON.stringify({ ...formData, imageUrl: uploadedFile }))
     }
-    console.log('Form submitted:', formData);
-    // Clear the form after submission (optional)  
-    // setFormData({ title: '', description: '' });  
   };
 
   return (
